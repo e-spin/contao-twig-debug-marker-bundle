@@ -41,8 +41,8 @@ use Twig\TemplateWrapper;
 final class DebugMarkerEnvironment extends Environment
 {
     /**
-     * @param string|TemplateWrapper $name
-     * @param array<string, mixed>   $context
+     * @param string|TemplateWrapper  $name
+     * @param array<array-key, mixed> $context
      */
     #[\Override]
     public function render($name, array $context = []): string

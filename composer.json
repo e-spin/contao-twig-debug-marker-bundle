@@ -1,66 +1,66 @@
 {
-    "name": "e-spin/contao-twig-debug-marker-bundle",
-    "description": "Wraps Twig template output with the same debug-mode TEMPLATE START/END markers Contao's legacy .html5 templates have always had - closing the gap for any Twig template that takes precedence over one.",
-    "license": "LGPL-3.0-or-later",
-    "type": "contao-bundle",
-    "keywords": [
-        "contao",
-        "twig",
-        "debug",
-        "template"
-    ],
-    "authors": [
-        {
-            "name": "e-spin",
-            "email": "info@e-spin.de",
-            "homepage": "https://www.e-spin.de",
-            "role": "Developer"
-        }
-    ],
-    "homepage": "https://www.e-spin.de",
-    "support": {
-        "issues": "https://github.com/e-spin/contao-twig-debug-marker-bundle/issues",
-        "source": "https://github.com/e-spin/contao-twig-debug-marker-bundle"
-    },
-    "funding": [
-        {
-            "type": "github",
-            "url": "https://github.com/sponsors/e-spin"
-        }
-    ],
-    "require": {
-        "php": "^8.3",
-        "contao/core-bundle": "^5.7",
-        "symfony/dependency-injection": "^7.4",
-        "symfony/http-kernel": "^7.4",
-        "twig/twig": "^3.21"
-    },
-    "require-dev": {
-        "contao/manager-plugin": "^2.2",
-        "phpcq/runner-bootstrap": "^1.0@dev",
-        "phpunit/phpunit": "^12.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "Espin\\ContaoTwigDebugMarkerBundle\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Espin\\ContaoTwigDebugMarkerBundle\\Test\\": "tests/"
-        }
-    },
-    "config": {
-        "allow-plugins": {
-            "contao-components/installer": false,
-            "contao/manager-plugin": false,
-            "php-http/discovery": false
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-main": "1.0.x-dev"
-        },
-        "contao-manager-plugin": "Espin\\ContaoTwigDebugMarkerBundle\\ContaoManager\\Plugin"
+  "name": "e-spin/contao-twig-debug-marker-bundle",
+  "description": "Wraps Twig template output with the same debug-mode TEMPLATE START/END markers Contao's legacy .html5 templates have always had - closing the gap for any Twig template that takes precedence over one.",
+  "license": "LGPL-3.0-or-later",
+  "type": "contao-bundle",
+  "keywords": [
+    "contao",
+    "twig",
+    "debug",
+    "template"
+  ],
+  "authors": [
+    {
+      "name": "e-spin",
+      "email": "info@e-spin.de",
+      "homepage": "https://www.e-spin.de",
+      "role": "Developer"
     }
+  ],
+  "homepage": "https://www.e-spin.de",
+  "support": {
+    "issues": "https://github.com/e-spin/contao-twig-debug-marker-bundle/issues",
+    "source": "https://github.com/e-spin/contao-twig-debug-marker-bundle"
+  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/e-spin"
+    }
+  ],
+  "require": {
+    "php": "^8.3",
+    "contao/core-bundle": "^5.7",
+    "symfony/dependency-injection": "^7.4",
+    "symfony/http-kernel": "^7.4",
+    "twig/twig": "^3.21"
+  },
+  "require-dev": {
+    "contao/manager-plugin": "^2.2",
+    "phpcq/runner-bootstrap": "^1.0@dev",
+    "phpunit/phpunit": "^12.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Espin\\ContaoTwigDebugMarkerBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Espin\\ContaoTwigDebugMarkerBundle\\Test\\": "tests/"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "contao-components/installer": false,
+      "contao/manager-plugin": false,
+      "php-http/discovery": false
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-main": "1.0.x-dev"
+    },
+    "contao-manager-plugin": "Espin\\ContaoTwigDebugMarkerBundle\\ContaoManager\\Plugin"
+  }
 }
