@@ -37,6 +37,16 @@ use Twig\TemplateWrapper;
  * template by name for - content elements, modules, and every legacy-to-Twig surrogate alike - lives
  * there. Templates rendered under a different name (Symfony's own error pages, the web debug
  * toolbar, ...) stay untouched.
+ *
+ * Further limited to names shaped exactly like Contao's own surrogate builds them:
+ * "@Contao/<leaf>.html.twig", with no further dot in the leaf segment - the one and only shape
+ * Contao\TemplateInheritance::renderTwigSurrogateIfExists() ever produces
+ * ("@Contao/$this->strTemplate.html.twig"). A name with an extra dot there follows some other,
+ * unknown convention layered on top of the same render() call, and there is no generic way to tell
+ * whether its result is page markup at all - it might just as well be a plain value a caller goes on
+ * to use programmatically (build a URL from, store, compare, ...), which a comment stuck in the
+ * middle of would corrupt rather than annotate. Skipping anything with that extra structure keeps
+ * this to the one case it is actually known to be safe for.
  */
 final class DebugMarkerEnvironment extends Environment
 {
@@ -54,10 +64,26 @@ final class DebugMarkerEnvironment extends Environment
         }
 
         $label = $name instanceof TemplateWrapper ? $name->getTemplateName() : $name;
-        if (!\str_starts_with($label, '@')) {
+        if (!$this->looksLikeAContaoSurrogateName($label)) {
             return $output;
         }
 
         return "\n<!-- TWIG TEMPLATE START: {$label} -->\n{$output}\n<!-- TWIG TEMPLATE END: {$label} -->\n";
+    }
+
+    /**
+     * Recognises exactly the "@Contao/<leaf>.html.twig" shape, requiring the leaf (the last path
+     * segment, with the ".html.twig" suffix removed) to be free of further dots.
+     */
+    private function looksLikeAContaoSurrogateName(string $name): bool
+    {
+        if (!\str_starts_with($name, '@') || !\str_ends_with($name, '.html.twig')) {
+            return false;
+        }
+
+        $stem = \substr($name, 0, -\strlen('.html.twig'));
+        $leaf = \substr($stem, ((int) \strrpos($stem, '/')) + 1);
+
+        return !\str_contains($leaf, '.');
     }
 }

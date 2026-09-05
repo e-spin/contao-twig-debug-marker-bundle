@@ -36,6 +36,17 @@ Ein `{% include %}` oder `{% embed %}` **innerhalb** eines Templates läuft nich
 bekommen also **keinen** eigenen Kommentar und können daher auch keinen Kommentar an einer Stelle
 platzieren, wo er nicht hingehört (z. B. innerhalb eines Attributwerts).
 
+**Nur Namen exakt in der Form `@Contao/<leaf>.html.twig`** - ohne weiteren Punkt im letzten
+Pfadsegment - bekommen den Rahmen. Das ist genau die eine Form, die Contaos eigenes
+Legacy-zu-Twig-Surrogat erzeugt
+(`Contao\TemplateInheritance::renderTwigSurrogateIfExists()`: `"@Contao/$this->strTemplate.html.twig"`).
+Ein Name mit zusätzlichem Punkt dort folgt einer anderen, dem Bundle unbekannten Konvention und wird
+übersprungen - so eine Vorlage kann auch einen Wert liefern, der anschließend programmatisch
+weiterverwendet wird (etwa als Teil einer URL) statt als sichtbares HTML zu landen; ein Kommentar
+darin würde diesen Wert zerstören statt ihn nur zu kennzeichnen. Gefunden an genau diesem Fall:
+MetaModels' `text`-Ausgabeformat (Suchindex, Sortierung, Sprung-URLs) nutzt intern denselben
+`render()`-Aufruf unter einem Namen wie `@Contao/metamodels/attribute/alias.text.html.twig`.
+
 Außerhalb des Debug-Modus tut das Bundle nichts, die Ausgabe ist byteidentisch zu ohne das Bundle.
 
 ## Wie es arbeitet
@@ -86,6 +97,16 @@ surrogate - gets the same wrapper the `.html5` templates already have:
 An `{% include %}` or `{% embed %}` **inside** a template does not go through `render()` - it
 calls the already-loaded template directly - so such nested calls get **no** comment of their own
 and can never place one somewhere it does not belong (inside an attribute value, for instance).
+
+**Only names shaped exactly like `@Contao/<leaf>.html.twig`** - no further dot in the last path
+segment - get the wrapper. That is the one shape Contao's own legacy-to-Twig surrogate produces
+(`Contao\TemplateInheritance::renderTwigSurrogateIfExists()`: `"@Contao/$this->strTemplate.html.twig"`).
+A name with an extra dot there follows some other convention this bundle does not know and is
+skipped - such a template might just as well produce a value used programmatically afterwards
+(part of a URL, say) rather than visible HTML, and a comment stuck inside would corrupt that value
+instead of merely marking it. Found on exactly this case: MetaModels' "text" output format (search
+index, sorting, jump-to URLs) uses the same `render()` call under a name like
+`@Contao/metamodels/attribute/alias.text.html.twig`.
 
 Outside debug mode the bundle does nothing; output is byte-identical to not having it installed.
 

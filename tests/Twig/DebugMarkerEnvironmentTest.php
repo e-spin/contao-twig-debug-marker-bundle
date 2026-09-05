@@ -51,11 +51,41 @@ final class DebugMarkerEnvironmentTest extends TestCase
         self::assertSame('BAR', $environment->render('plain-name.html.twig'));
     }
 
+    /**
+     * A name with an extra dot in the leaf segment - MetaModels' own convention for its "text"
+     * output format (search index, sorting, URL building, ...) is the concrete case this was found
+     * with - does not necessarily produce page markup at all. Wrapping it broke MetaModels'
+     * jump-to-item URL, which used the "text" rendering of an "alias" attribute as a raw path
+     * segment; the injected comment made that an invalid URL parameter.
+     */
+    public function testLeavesANameWithAnExtraDotInTheLeafSegmentUntouched(): void
+    {
+        $environment = $this->createEnvironment(true);
+
+        self::assertSame(
+            'hihi-huhusss-6',
+            $environment->render('@Contao/metamodels/attribute/alias.text.html.twig')
+        );
+    }
+
+    public function testStillWrapsANestedPathWithoutAnExtraDotInTheLeaf(): void
+    {
+        $environment = $this->createEnvironment(true);
+
+        self::assertSame(
+            "\n<!-- TWIG TEMPLATE START: @Contao/metamodels/attribute/alias.html.twig -->\nSLUG"
+            . "\n<!-- TWIG TEMPLATE END: @Contao/metamodels/attribute/alias.html.twig -->\n",
+            $environment->render('@Contao/metamodels/attribute/alias.html.twig')
+        );
+    }
+
     private function createEnvironment(bool $debug): DebugMarkerEnvironment
     {
         $loader = new ArrayLoader([
-            '@Contao/foo.html.twig' => 'FOO',
-            'plain-name.html.twig'  => 'BAR',
+            '@Contao/foo.html.twig'                                => 'FOO',
+            'plain-name.html.twig'                                 => 'BAR',
+            '@Contao/metamodels/attribute/alias.text.html.twig'    => 'hihi-huhusss-6',
+            '@Contao/metamodels/attribute/alias.html.twig'         => 'SLUG',
         ]);
 
         return new DebugMarkerEnvironment($loader, ['debug' => $debug, 'cache' => false]);
