@@ -30,9 +30,9 @@
   ],
   "require": {
     "php": "^8.3",
-    "contao/core-bundle": "^5.7",
-    "symfony/dependency-injection": "^7.4",
-    "symfony/http-kernel": "^7.4",
+    "contao/core-bundle": "^5.7 || ^6.0",
+    "symfony/dependency-injection": "^7.4 || ^8.0",
+    "symfony/http-kernel": "^7.4 || ^8.0",
     "twig/twig": "^3.21"
   },
   "require-dev": {
